@@ -8,12 +8,7 @@ const ThoughtsSchema = new Schema({
         maxlength: 280
 
     },
-    writtenBy: {
-        type: String
-    },
-    thoughtBody: {
-        type: String
-    },
+
     username: {
         type: String,
         require: true
@@ -21,8 +16,9 @@ const ThoughtsSchema = new Schema({
     createdAt: {
         type: Date,
         default: Date.now,
-        get: (createdAt) => dateFormat(createdAt)
+        get: (createdAtVal) => dateFormat(createdAtVal)
     }
+
 });
 
 const Thought = model('Thought', ThoughtsSchema);

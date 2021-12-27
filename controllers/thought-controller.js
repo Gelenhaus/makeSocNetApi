@@ -1,9 +1,9 @@
-const { Thought, User } = require('../models');
+const { Thoughts, User } = require('../models');
 
 const thoughtController = {
 
     getAllThoughts(req, res) {
-        Thought.find({})
+        Thoughts.find({})
             .populate({
                 path: "thoughts",
             })
@@ -14,8 +14,8 @@ const thoughtController = {
             });
     },
 
-    getThoughtById({ req, res }) {
-        Thought.findOne({ _id: params.thoughtId })
+    getThoughtById({ params }, res) {
+        Thoughts.findOne({ _id: params.thoughtId })
             .populate({
                 path: "thoughts",
             })
@@ -33,25 +33,21 @@ const thoughtController = {
     },
 
     createThought({ params, body }, res) {
-        Thought.create(body)
+        Thoughts.create(body)
             .then(({ _id }) => {
-                return User.findOneAndUpdate(
-                    { _id: body.userId }, { $push: { thoughts: _id } }, { new: true }
-                );
+                return Users.findOneAndUpdate({ _id: params.userId }, { $push: { thoughts: _id } }, { new: true });
             })
-            .then((dbUserData) => {
-                if (!dbUserData) {
-                    res.status(404).json({ message: "Cannot find that!" })
+            .then(dbThoughtsData => {
+                if (!dbThoughtsData) {
+                    res.status(404).json({ message: 'No thoughts found with this id!' })
                     return;
                 }
-                res.json(dbUserData);
+                res.json(dbThoughtsData)
             })
-            .catch((err) => {
-                res.json((err));
-            })
+            .catch(err => res.json(err));
     },
     removeThought({ params }, res) {
-        Thought.findOneAndDelete({ _id: params.thoughtId })
+        Thoughts.findOneAndDelete({ _id: params.thoughtId })
             .then(deletedThought => {
                 if (!deletedThought) {
                     return res.status(404).json({ message: 'No thought with this id!' });

@@ -9,7 +9,6 @@ const ThoughtsSchema = new Schema({
         minLength: 1
 
     },
-
     username: {
         type: String,
         require: true
@@ -19,7 +18,6 @@ const ThoughtsSchema = new Schema({
         default: Date.now,
         get: (createdAtVal) => dateFormat(createdAtVal)
     }
-
 });
 
 const Thoughts = model('Thoughts', ThoughtsSchema);

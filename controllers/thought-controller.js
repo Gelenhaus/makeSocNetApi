@@ -2,6 +2,20 @@ const { Thoughts, User } = require('../models');
 
 const thoughtController = {
 
+    createThought({ params, body }, res) {
+        Thoughts.create(body)
+            .then(({ _id }) => {
+                return Users.findOneAndUpdate({ _id: params.userId }, { $push: { thoughts: _id } }, { new: true });
+            })
+            .then(dbUserData => {
+                if (!dbUserData) {
+                    res.status(404).json({ message: 'No thoughts found with this id!' })
+                    return;
+                }
+                res.json(dbUserData)
+            })
+            .catch(err => res.json(err));
+    },
     getAllThoughts(req, res) {
         Thoughts.find({})
             .populate({
@@ -32,20 +46,7 @@ const thoughtController = {
 
     },
 
-    createThought({ params, body }, res) {
-        Thoughts.create(body)
-            .then(({ _id }) => {
-                return Users.findOneAndUpdate({ _id: params.userId }, { $push: { thoughts: _id } }, { new: true });
-            })
-            .then(dbThoughtsData => {
-                if (!dbThoughtsData) {
-                    res.status(404).json({ message: 'No thoughts found with this id!' })
-                    return;
-                }
-                res.json(dbThoughtsData)
-            })
-            .catch(err => res.json(err));
-    },
+
     removeThought({ params }, res) {
         Thoughts.findOneAndDelete({ _id: params.thoughtId })
             .then(deletedThought => {

@@ -7,17 +7,17 @@ const {
 
 } = require('../../controllers/thought-controller');
 
+//create thought
+router.route('/:userId').post(createThought);
 
+//get all thoughts
 router
     .route('/')
     .get(getAllThoughts);
 
-router.route('/:userId').post(createThought);
+//remove a thought
 router.route('/:userId/:thoughtId').delete(removeThought);
-router.route('/:userId').post(createThought);
 
-router
-    .route('/:userId/:thoughtId')
-    .delete(removeThought);
+
 
 module.exports = router;

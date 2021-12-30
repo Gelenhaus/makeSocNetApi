@@ -11,7 +11,8 @@ const ThoughtsSchema = new Schema({
     },
     username: {
         type: String,
-        require: true
+        require: true,
+        trim: true
     },
     createdAt: {
         type: Date,

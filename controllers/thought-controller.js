@@ -38,8 +38,10 @@ const thoughtController = {
     getThoughtById({ params }, res) {
         Thoughts.findOne({ _id: params.thoughtId })
             .populate({
-                path: "thoughts",
+                path: "reactions",
+                select: '-__v'
             })
+            .select('-__v')
             .then((dbUserData) => {
                 if (!dbUserData) {
                     res.status(404).json({ message: "Cannot find that!" })

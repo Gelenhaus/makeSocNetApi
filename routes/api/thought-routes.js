@@ -3,7 +3,8 @@ const {
     getAllThoughts,
     getThoughtById,
     createThought,
-    removeThought
+    removeThought,
+    editThought
 
 } = require('../../controllers/thought-controller');
 
@@ -18,6 +19,10 @@ router.route('/:userId/:thoughtId').delete(removeThought);
 
 //Get Thought by Id
 router.route('/:thoughtId').get(getThoughtById);
+
+//Edit a thought
+router.route('/:thoughtId').put(editThought);
+
 
 
 

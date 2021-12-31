@@ -56,6 +56,21 @@ const thoughtController = {
     },
 
 
+    editThought({ params, body }, res) {
+        Thoughts.findOneAndUpdate(
+            { _id: params.thoughtId }, { new: true }, body
+        )
+            .then(dbUserData => {
+                if (!dbUserData) {
+                    res.status(404).json({ message: 'Invalid User ID' });
+                    return;
+                }
+                res.json(dbUserData);
+            })
+            .catch(err => res.status(400).json(err));
+    },
+
+
     removeThought({ params }, res) {
         Thoughts.findOneAndDelete({ _id: params.thoughtId })
             .then(deletedThought => {
@@ -77,6 +92,6 @@ const thoughtController = {
             })
             .catch(err => res.json(err));
     }
+}
 
-};
 module.exports = thoughtController;

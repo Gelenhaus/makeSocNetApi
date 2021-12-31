@@ -29,7 +29,7 @@ router.route('/:thoughtId').put(editThought);
 
 //REACTION ROUTES
 router.route('/:thoughtId/reactions').post(createReaction);
-router.route('/:thoughtId/reactions/reactionId').delete(deleteReaction);
+router.route('/:thoughtId/reactions/:reactionId').delete(deleteReaction);
 
 
 

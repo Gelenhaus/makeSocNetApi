@@ -58,7 +58,7 @@ const thoughtController = {
 
     editThought({ params, body }, res) {
         Thoughts.findOneAndUpdate(
-            { _id: params.thoughtId }, { new: true }, body
+            { _id: params.thoughtId }, { new: true, runValidators: true }, body
         )
             .then(dbUserData => {
                 if (!dbUserData) {
